@@ -1,22 +1,28 @@
 package com.example.project.controller;
 
-import com.example.project.model.Key;
-import com.example.project.model.Owner;
+import com.example.project.entity.DictKey;
+import com.example.project.repository.DictKeyRepository;
+import com.example.project.service.DictKeyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class GreetingController {
 
-    Owner personalData = new Owner("NATURAL_PERSON", "29640751820", "Alexandre Mota");
+    private final DictKeyService dictKeyService;
 
-    Key myKey = new Key("+5511976888251", "PHONE", personalData);
+    @Autowired
+    public GreetingController(DictKeyService dictKeyService) {
+        this.dictKeyService = dictKeyService;
+    }
 
-
-    @GetMapping("/key")
-    public Key getKey() {
-        return myKey;
+    @GetMapping("/keys")
+    public List<DictKey> getAllDictKeys() {
+        return dictKeyService.getAllDictKeys();
     }
 }
